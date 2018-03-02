@@ -5,6 +5,9 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
+  Button,
+  Linking,
+  TouchableOpacity
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import LoginForm from './LoginForm';
@@ -13,6 +16,11 @@ export default class Login extends Component {
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <View style={styles.alfred}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={ ()=>{ Linking.openURL('http://localhost:4200/home/register')}} >
+            <Text style={styles.buttonText}>NEW USER</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.logoContainer}>
           <Image
             style={styles.logo}
@@ -32,6 +40,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#EEF'
   },
+  alfred: {
+    padding: 20
+  },
+  buttonContainer: {
+      backgroundColor: '#0984e3',
+      paddingVertical: 15,
+      paddingHorizontal: 10,
+      alignSelf: 'flex-end'
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: '700'
+  },
   logoContainer: {
     alignItems: 'center',
     flexGrow: 1,
@@ -49,8 +71,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     opacity: 0.5
-  },
-  formContainer: {
-
   }
 });

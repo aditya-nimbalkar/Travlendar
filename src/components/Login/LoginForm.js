@@ -5,7 +5,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Linking
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
@@ -36,6 +37,10 @@ export default class Login extends Component {
           <TouchableOpacity style={styles.buttonContainer}>
             <Text style={styles.buttonText}>LOGIN</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.linkContainer} onPress={ ()=>{ Linking.openURL('http://localhost:4200/home/register')}}>
+            <Text style={styles.linkText}>New User? Register Here</Text>
+          </TouchableOpacity>
       </View>
     );
   }
@@ -60,6 +65,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontWeight: '700'
+  },
+  linkContainer: {
+      padding: 15,
+  },
+  linkText: {
+    textAlign: 'center',
+    color: "#3742fa",
+    fontWeight: '500',
+    fontSize: 15
   }
 
 });
