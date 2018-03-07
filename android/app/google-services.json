@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "383990736767",
+    "firebase_url": "https://travlendar-b8a39.firebaseio.com",
+    "project_id": "travlendar-b8a39",
+    "storage_bucket": "travlendar-b8a39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383990736767:android:5ddb6f83ba88ed47",
+        "android_client_info": {
+          "package_name": "com.travlendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383990736767-ot24okou65etp7gv52oa20dmim4dhm23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZlqeopxMRfkV_3M9gTjko7y0f20JmqwE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
