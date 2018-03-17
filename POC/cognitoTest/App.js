@@ -76,6 +76,23 @@ export default class App extends Component<Props> {
           title="Confirm Code"
           onPress={this.verify.bind(this)}
         />
+        <Text style={styles.welcome}>
+          Registered Users Sign In!
+        </Text>
+        <TextInput
+        style={styles.input}
+        onChangeText={value => this.onChangeText(value)}
+        placeholder='Username'
+        />
+        <TextInput
+        style={styles.input}
+        onChangeText={value => this.onChangeText(value)}
+        placeholder='Password'
+        />
+        <Button
+          title="Sign In"
+          onPress={this.signUp.bind(this)}
+        />
       </View>
     );
   }
