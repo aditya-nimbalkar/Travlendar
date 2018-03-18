@@ -57,6 +57,54 @@ export default class App extends Component<Props> {
     })
   }
 
+  let authenticationData = {
+        Username : 'CognitoTest1',
+        Password : 'Password@123',
+    };
+  let authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+  let poolData = {
+        UserPoolId : 'us-west-2_xB02p2TFa', // Your user pool id here
+        ClientId : '4lpvb766fg6qolk6rnj69qbhf' // Your client id here
+    };
+  let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+  let userData = {
+      Username : 'CognitoTest1',
+      Pool : userPool
+  };
+  let cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+  cognitoUser.authenticateUser(authenticationDetails, {
+      onSuccess: function (result) {
+          console.log('access token + ' + result.getAccessToken().getJwtToken());
+
+          //POTENTIAL: Region needs to be set if not already set previously elsewhere.
+          AWS.config.region = '<region>';
+
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+              // IdentityPoolId : '...', // your identity pool id here
+              Logins : {
+                  // Change the key below according to the specific region your user pool is in.
+                  'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>' : result.getIdToken().getJwtToken()
+              }
+          });
+
+          //refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
+          AWS.config.credentials.refresh((error) => {
+              if (error) {
+                    console.error(error);
+              } else {
+                    // Instantiate aws sdk service objects now that the credentials have been updated.
+                    // example: var s3 = new AWS.S3();
+                    console.log('Successfully logged!');
+              }
+          });
+      },
+
+      onFailure: function(err) {
+          alert(err);
+      },
+
+  });
+
   render() {
     return (
       <View style={styles.container}>
