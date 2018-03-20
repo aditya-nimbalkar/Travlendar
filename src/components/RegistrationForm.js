@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import Amplify, { Auth } from 'aws-amplify';
 
+
+import awsconfig from './src/aws-exports';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
+Amplify.configure(awsconfig)
+
+type Props = {};
+
 class LoginForm extends Component {
-  state = { email: '', password: '', error: '', loading: false };
+  state = { email: '', password: '', error: '', loading: false, authcode: '' };
 
   onButtonPress() {
     const { email, password } = this.state;
@@ -17,13 +24,14 @@ class LoginForm extends Component {
   onLoginFail() {
     this.setState({ error: 'Authentication Failed.', loading: false });
   }
-  
+
   onLoginSuccess() {
     this.setState({
       email: '',
       password: '',
       error: '',
-      loading: false
+      loading: false,
+      authcode: ''
     });
   }
 
@@ -32,8 +40,8 @@ class LoginForm extends Component {
       return <Spinner size="small" />;
     }
     return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Log In!
+      <Button onPress={this.verify.bind(this)}>
+        Sign Up!
       </Button>
     );
   }
