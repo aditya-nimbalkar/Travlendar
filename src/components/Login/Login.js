@@ -13,6 +13,9 @@ import { StackNavigator } from 'react-navigation';
 import LoginForm from './LoginForm';
 
 export default class Login extends Component {
+  registerDevice() {
+  }
+
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
