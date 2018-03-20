@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
 
 
@@ -13,21 +13,14 @@ type Props = {};
 class LoginForm extends Component {
   state = { email: '', password: '', error: '', loading: false, authcode: '' };
 
-  onButtonPress() {
-    const { email, password } = this.state;
-
-    this.setState({ error: '', loading: true });
-
-
-}
-
-  onLoginFail() {
-    this.setState({ error: 'Authentication Failed.', loading: false });
+  onSignUpFail() {
+    this.setState({ error: 'Registration Failed.', loading: false });
   }
 
-  onLoginSuccess() {
+  onSignUpSuccess() {
     this.setState({
-      email: '',
+      // email: '',
+      // username: '',
       password: '',
       error: '',
       loading: false,
@@ -35,7 +28,61 @@ class LoginForm extends Component {
     });
   }
 
-  renderButton() {
+  signUp() {
+    const { email, username, password } = this.state;
+
+    this.setState({ error: '', loading: true });
+
+    Auth.signUp({
+      // username: username,
+      // password: password,
+      username,
+      password,
+      attributes: {
+        // email: email
+        email
+        // phone: ''
+      }
+    })
+    .then(res => {
+      console.log('SIGNED UP!', res);
+      this.onSignUpSuccess.bind(this);
+    })
+    .catch(err => {
+      console.log('ERR: ', err);
+      this.onSignUpFail.bind(this);
+    });
+  }
+
+  verify() {
+    // console.log(this.state.authCode);
+    const { username, authcode } = this.state;
+
+    this.setState({ loading: true });
+
+    Auth.confirmSignUp(username, authcode)
+    .then(res => {
+      console.log('CONFIRM SIGNED UP!', res);
+      this.onSignUpSuccess.bind(this);
+    })
+    .catch(err => {
+      console.log('CONFIRM ERR: ', err);
+      this.onSignUpFail.bind(this);
+    });
+  }
+
+  renderSignUpButton() {
+    if (this.state.loading) {
+      return <Spinner size="small" />;
+    }
+    return (
+      <Button onPress={this.signUp.bind(this)}>
+        Sign Up!
+      </Button>
+    );
+  }
+
+  renderVerifyButton() {
     if (this.state.loading) {
       return <Spinner size="small" />;
     }
@@ -65,6 +112,15 @@ class LoginForm extends Component {
 
         <CardSection>
           <Input
+            placeholder='username'
+            label='Username'
+            value={this.state.username}
+            onChangeText={username => this.setState({ username })}
+          />
+        </CardSection>
+
+        <CardSection>
+          <Input
             secureTextEntry
             placeholder='password'
             label='Password'
@@ -78,7 +134,20 @@ class LoginForm extends Component {
         </Text>
 
         <CardSection>
-          { this.renderButton() }
+          { this.renderSignUpButton() }
+        </CardSection>
+
+        <CardSection>
+          <Input
+            placeholder='Authentication Code'
+            label='AuthCode'
+            value={this.state.authcode}
+            onChangeText={authcode => this.setState({ authcode })}
+          />
+        </CardSection>
+
+        <CardSection>
+          { this.renderVerifyButton() }
         </CardSection>
 
       </Card>
