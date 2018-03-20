@@ -26,11 +26,9 @@ export default class TravlendarApp extends Component {
         onRegister: function (token) {
           console.log('TOKEN:', token);
           var AWS = require('aws-sdk');
+          var my_credentials = new AWS.SharedIniFileCredentials({profile: 'default'});
+          AWS.config.credentials = my_credentials;
           AWS.config.update({
-            credentials: {
-              accessKeyId: 'AKIAJMHM5F6BOYAZPSSA',
-              secretAccessKey: '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'
-            },
             region: 'us-west-2'
           });
           var sns = new AWS.SNS();
