@@ -26,23 +26,30 @@ export default class TravlendarApp extends Component {
         onRegister: function (token) {
           console.log('TOKEN:', token);
           var AWS = require('aws-sdk');
-          var sns = new AWS.SNS();
-          var device_token = token;
           AWS.config.update({
-            accessKeyId: 'AKIAJMHM5F6BOYAZPSSA',
-            secretAccessKey: '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',
+            credentials: {
+              accessKeyId: 'AKIAJMHM5F6BOYAZPSSA',
+              secretAccessKey: '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'
+            },
             region: 'us-west-2'
           });
+          var sns = new AWS.SNS();
+          var device_token = token.token;
+          console.log(device_token)
 
 
           sns.createPlatformEndpoint({
             PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
-            Token: device_token
+            Token: device_token,
+            CustomUserData: "Alfred"
           }, function(err, data) {
                 if (err) {
-                  callback(null, JSON.stringify(err));
+                  // callback(null, JSON.stringify(err));
                   console.log(err.stack);
                   return;
+                }
+                else {
+                  console.log("Successfully added device: "+data);
                 }
           });
 
