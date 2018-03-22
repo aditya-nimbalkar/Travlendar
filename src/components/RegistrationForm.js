@@ -3,14 +3,14 @@ import { Text } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
 
 
-import awsconfig from './src/aws-exports';
+import awsconfig from '../aws-exports';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
 Amplify.configure(awsconfig)
 
 type Props = {};
 
-class LoginForm extends Component {
+class RegistrationForm extends Component {
   state = { email: '', password: '', error: '', loading: false, authcode: '' };
 
   onSignUpFail() {
@@ -88,7 +88,7 @@ class LoginForm extends Component {
     }
     return (
       <Button onPress={this.verify.bind(this)}>
-        Sign Up!
+        Confirm Sign Up!
       </Button>
     );
   }
@@ -163,4 +163,4 @@ const styles = {
   }
 };
 
-export default LoginForm;
+export default RegistrationForm;
