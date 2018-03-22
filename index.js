@@ -28,8 +28,8 @@ export default class TravlendarApp extends Component {
           var AWS = require('aws-sdk');
           AWS.config.update({
             credentials: {
-              accessKeyId: 'AKIAJMHM5F6BOYAZPSSA',
-              secretAccessKey: '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'
+              accessKeyId: '',
+              secretAccessKey: ''
             },
             region: 'us-west-2'
           });
