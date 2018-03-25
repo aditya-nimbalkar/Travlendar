@@ -11,7 +11,12 @@ Amplify.configure(awsconfig)
 type Props = {};
 
 class RegistrationForm extends Component {
-  state = { email: '', password: '', error: '', loadingSignUp: false, loadingVerify: false, authcode: '' };
+  state = { email: '',
+            password: '',
+            error: '',
+            loadingSignUp: false,
+            loadingVerify: false,
+            authcode: '' };
 
   onSignUpFail() {
     console.log('Inside Failure function!');
