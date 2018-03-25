@@ -11,19 +11,24 @@ Amplify.configure(awsconfig)
 type Props = {};
 
 class RegistrationForm extends Component {
-  state = { email: '', password: '', error: '', loading: false, authcode: '' };
+  state = { email: '', password: '', error: '', loadingSignUp: false, loadingVerify: false, authcode: '' };
 
   onSignUpFail() {
-    this.setState({ error: 'Registration Failed.', loading: false });
+    console.log('Inside Failure function!');
+    this.setState({ error: 'Registration Failed.',
+    loadingSignUp: false,
+    loadingVerify: false, });
   }
 
   onSignUpSuccess() {
+    console.log('Inside Success function!');
     this.setState({
       // email: '',
       // username: '',
       password: '',
       error: '',
-      loading: false,
+      loadingSignUp: false,
+      loadingVerify: false,
       authcode: ''
     });
   }
@@ -31,7 +36,7 @@ class RegistrationForm extends Component {
   signUp() {
     const { email, username, password } = this.state;
 
-    this.setState({ error: '', loading: true });
+    this.setState({ error: '', loadingSignUp: true });
 
     Auth.signUp({
       // username: username,
@@ -44,35 +49,39 @@ class RegistrationForm extends Component {
         // phone: ''
       }
     })
-    .then(res => {
-      console.log('SIGNED UP!', res);
-      this.onSignUpSuccess.bind(this);
-    })
-    .catch(err => {
-      console.log('ERR: ', err);
-      this.onSignUpFail.bind(this);
-    });
+    // .then(res => {
+    //   console.log('SIGNED UP!', res);
+    //   this.onSignUpSuccess.bind(this);
+    // })
+    // .catch(err => {
+    //   console.log('ERR: ', err);
+    //   this.onSignUpFail.bind(this);
+    // });
+    .then(this.onSignUpSuccess.bind(this))
+    .catch(this.onSignUpFail.bind(this));
   }
 
   verify() {
     // console.log(this.state.authCode);
     const { username, authcode } = this.state;
 
-    this.setState({ loading: true });
+    this.setState({ loadingVerify: true });
 
     Auth.confirmSignUp(username, authcode)
-    .then(res => {
-      console.log('CONFIRM SIGNED UP!', res);
-      this.onSignUpSuccess.bind(this);
-    })
-    .catch(err => {
-      console.log('CONFIRM ERR: ', err);
-      this.onSignUpFail.bind(this);
-    });
+    // .then(res => {
+    //   console.log('CONFIRM SIGNED UP!', res);
+    //   this.onSignUpSuccess.bind(this);
+    // })
+    // .catch(err => {
+    //   console.log('CONFIRM ERR: ', err);
+    //   this.onSignUpFail.bind(this);
+    // });
+    .then(this.onSignUpSuccess.bind(this))
+    .catch(this.onSignUpFail.bind(this));
   }
 
   renderSignUpButton() {
-    if (this.state.loading) {
+    if (this.state.loadingSignUp) {
       return <Spinner size="small" />;
     }
     return (
@@ -83,7 +92,7 @@ class RegistrationForm extends Component {
   }
 
   renderVerifyButton() {
-    if (this.state.loading) {
+    if (this.state.loadingVerify) {
       return <Spinner size="small" />;
     }
     return (
