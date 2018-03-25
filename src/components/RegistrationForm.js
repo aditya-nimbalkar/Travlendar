@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
 
 
 import awsconfig from '../aws-exports';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
-Amplify.configure(awsconfig)
+Amplify.configure(awsconfig);
+const imgSrc = require('../images/travlendar_logo.png');
 
 type Props = {};
 
@@ -109,62 +110,71 @@ class RegistrationForm extends Component {
 
   render() {
     return (
-      // <View>
-      //   <Text>
-      //     WELOCOME TUOA REACT ANTIVE HELLBVBCMNADBNCBSAMBCNSM
-      //   </Text>
-      // </View>
-      <Card>
-        <CardSection>
-          <Input
-            placeholder='user@domain.com'
-            label='Email'
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-          />
-        </CardSection>
 
-        <CardSection>
-          <Input
-            placeholder='username'
-            label='Username'
-            value={this.state.username}
-            onChangeText={username => this.setState({ username })}
-          />
-        </CardSection>
+      <View style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              // source={require('../../images/travlendar_logo.png')}
+              source={imgSrc}
+            />
+          </View>
 
-        <CardSection>
-          <Input
-            secureTextEntry
-            placeholder='password'
-            label='Password'
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-        </CardSection>
+        <Card>
+        <Card>
+          <CardSection>
+            <Input
+              placeholder='user@domain.com'
+              label='Email'
+              value={this.state.email}
+              onChangeText={email => this.setState({ email })}
+            />
+          </CardSection>
 
-        <Text style={styles.errorTextStyle}>
-          { this.state.error }
-        </Text>
+          <CardSection>
+            <Input
+              placeholder='username'
+              label='Username'
+              value={this.state.username}
+              onChangeText={username => this.setState({ username })}
+            />
+          </CardSection>
 
-        <CardSection>
-          { this.renderSignUpButton() }
-        </CardSection>
+          <CardSection>
+            <Input
+              secureTextEntry
+              placeholder='password'
+              label='Password'
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+            />
+          </CardSection>
 
-        <CardSection>
-          <Input
-            placeholder='Authentication Code'
-            label='AuthCode'
-            value={this.state.authcode}
-            onChangeText={authcode => this.setState({ authcode })}
-          />
-        </CardSection>
+          <Text style={styles.errorTextStyle}>
+            { this.state.error }
+          </Text>
 
-        <CardSection>
-          { this.renderVerifyButton() }
-        </CardSection>
+          <CardSection>
+            { this.renderSignUpButton() }
+          </CardSection>
+        </Card>
 
-      </Card>
+        <Card>
+          <CardSection>
+            <Input
+              placeholder='Authentication Code'
+              label='AuthCode'
+              value={this.state.authcode}
+              onChangeText={authcode => this.setState({ authcode })}
+            />
+          </CardSection>
+
+          <CardSection>
+            { this.renderVerifyButton() }
+          </CardSection>
+        </Card>
+        </Card>
+      </View>
     );
   }
 }
@@ -174,7 +184,22 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
-  }
+  },
+  logo: {
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    width: 330,
+    height: 120
+  },
+  logoContainer: {
+    alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#368ce7'
+  },
 };
 
 export default RegistrationForm;
