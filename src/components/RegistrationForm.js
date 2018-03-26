@@ -112,67 +112,66 @@ class RegistrationForm extends Component {
     return (
 
       <View style={styles.container}>
-          <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              // source={require('../../images/travlendar_logo.png')}
-              source={imgSrc}
-            />
-          </View>
+        <View style={styles.logoContainer}>
+          <Image
+            style={styles.logo}
+            source={imgSrc}
+          />
+        </View>
 
         <Card>
-        <Card>
-          <CardSection>
-            <Input
-              placeholder='user@domain.com'
-              label='Email'
-              value={this.state.email}
-              onChangeText={email => this.setState({ email })}
-            />
-          </CardSection>
+          <Card>
+            <CardSection>
+              <Input
+                placeholder='user@domain.com'
+                label='Email'
+                value={this.state.email}
+                onChangeText={email => this.setState({ email })}
+              />
+            </CardSection>
 
-          <CardSection>
-            <Input
-              placeholder='username'
-              label='Username'
-              value={this.state.username}
-              onChangeText={username => this.setState({ username })}
-            />
-          </CardSection>
+            <CardSection>
+              <Input
+                placeholder='username'
+                label='Username'
+                value={this.state.username}
+                onChangeText={username => this.setState({ username })}
+              />
+            </CardSection>
 
-          <CardSection>
-            <Input
-              secureTextEntry
-              placeholder='password'
-              label='Password'
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-            />
-          </CardSection>
+            <CardSection>
+              <Input
+                secureTextEntry
+                placeholder='password'
+                label='Password'
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })}
+              />
+            </CardSection>
 
-          <Text style={styles.errorTextStyle}>
-            { this.state.error }
-          </Text>
+            <Text style={styles.errorTextStyle}>
+              { this.state.error }
+            </Text>
 
-          <CardSection>
-            { this.renderSignUpButton() }
-          </CardSection>
-        </Card>
+            <CardSection>
+              { this.renderSignUpButton() }
+            </CardSection>
+          </Card>
 
-        <Card>
-          <CardSection>
-            <Input
-              placeholder='Authentication Code'
-              label='AuthCode'
-              value={this.state.authcode}
-              onChangeText={authcode => this.setState({ authcode })}
-            />
-          </CardSection>
+          <Card>
+            <CardSection>
+              <Input
+                placeholder='Authentication Code'
+                label='AuthCode'
+                value={this.state.authcode}
+                onChangeText={authcode => this.setState({ authcode })}
+              />
+            </CardSection>
 
-          <CardSection>
-            { this.renderVerifyButton() }
-          </CardSection>
-        </Card>
+            <CardSection>
+              { this.renderVerifyButton() }
+            </CardSection>
+          </Card>
         </Card>
       </View>
     );
