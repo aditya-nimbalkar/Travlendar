@@ -53,6 +53,19 @@ export default class TravlendarApp extends Component {
                 }
           });
 
+          sns.deleteEndpoint({
+              EndpointArn: '',
+          }, function(err, data) {
+                if (err) {
+                  // callback(null, JSON.stringify(err));
+                  console.log(err.stack);
+                  return;
+                }
+                else {
+                  console.log("Successfully deleted device: "+data);
+                }
+          });
+
         },
         // (required) Called when a remote or local notification is opened or received
         onNotification: function (notification) {
