@@ -25,7 +25,11 @@ export default class TravlendarApp extends Component {
         // (optional) Called when Token is generated (iOS and Android)
         onRegister: function (token) {
           console.log('TOKEN:', token);
+          var device_token = token.token;
+          console.log(device_token);
+
           var AWS = require('aws-sdk');
+/*
           AWS.config.update({
             credentials: { // Add lines to connect to the AWS SNS service
               accessKeyId: '',
@@ -34,8 +38,6 @@ export default class TravlendarApp extends Component {
             region: 'us-west-2'
           });
           var sns = new AWS.SNS();
-          var device_token = token.token;
-          console.log(device_token);
           var endpoint_arn;
 
           sns.createPlatformEndpoint({
@@ -66,7 +68,7 @@ export default class TravlendarApp extends Component {
                   console.log("Successfully deleted device: " + data);
                 }
           });
-
+*/
         },
 
         // (required) Called when a remote or local notification is opened or received
