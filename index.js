@@ -24,27 +24,24 @@ export default class TravlendarApp extends Component {
       PushNotification.configure({
         // (optional) Called when Token is generated (iOS and Android)
         onRegister: function (token) {
-          console.log('TOKEN:', token);
-          var device_token = token.token;
-          console.log(device_token);
-
           var AWS = require('aws-sdk');
+          AWS.config.update({
+            region: 'us-west-2'
+          });
           AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: 'us-west-2:8763dc1c-39ea-4734-9021-b9037792d1b3',
           }, {
             region: 'us-west-2'
           });
-          // AWS.config.update({
-          //   credentials: { // Add lines to connect to the AWS SNS service
-          //     accessKeyId: '',
-          //     secretAccessKey: ''
-          //   },
-          //   region: 'us-west-2'
-          // });
           var sns = new AWS.SNS();
+
+          console.log('TOKEN:', token);
+          var device_token = token.token;
+          console.log(device_token);
+
           console.log(sns)
           var endpoint_arn = "";
-/*
+
           sns.createPlatformEndpoint({
             PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
             Token: device_token,
@@ -58,9 +55,10 @@ export default class TravlendarApp extends Component {
                 else {
                   console.log("Successfully added device: ARN = " + data);
                   endpoint_arn = data;
+
                 }
           });
-
+/*
           sns.deleteEndpoint({
               EndpointArn: endpoint_arn,
           }, function(err, data) {
