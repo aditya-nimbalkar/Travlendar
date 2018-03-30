@@ -27,7 +27,7 @@ export default class TravlendarApp extends Component {
           console.log('TOKEN:', token);
           var AWS = require('aws-sdk');
           AWS.config.update({
-            credentials: {
+            credentials: { // Add lines to connect to the AWS SNS service
               accessKeyId: '',
               secretAccessKey: ''
             },
@@ -35,8 +35,7 @@ export default class TravlendarApp extends Component {
           });
           var sns = new AWS.SNS();
           var device_token = token.token;
-          console.log(device_token)
-
+          console.log(device_token);
           var endpoint_arn;
 
           sns.createPlatformEndpoint({
@@ -69,6 +68,7 @@ export default class TravlendarApp extends Component {
           });
 
         },
+
         // (required) Called when a remote or local notification is opened or received
         onNotification: function (notification) {
           console.log('NOTIFICATION:', notification);
