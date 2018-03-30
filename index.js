@@ -27,7 +27,7 @@ export default class TravlendarApp extends Component {
           console.log('TOKEN:', token);
           var AWS = require('aws-sdk');
           AWS.config.update({
-            credentials: {
+            credentials: { // Add lines to connect to the AWS SNS service
               accessKeyId: '',
               secretAccessKey: ''
             },
@@ -35,8 +35,8 @@ export default class TravlendarApp extends Component {
           });
           var sns = new AWS.SNS();
           var device_token = token.token;
-          console.log(device_token)
-
+          console.log(device_token);
+          var endpoint_arn;
 
           sns.createPlatformEndpoint({
             PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
@@ -49,11 +49,26 @@ export default class TravlendarApp extends Component {
                   return;
                 }
                 else {
-                  console.log("Successfully added device: "+data);
+                  console.log("Successfully added device: ARN = " + data);
+                  endpoint_arn = data;
+                }
+          });
+
+          sns.deleteEndpoint({
+              EndpointArn: endpoint_arn,
+          }, function(err, data) {
+                if (err) {
+                  // callback(null, JSON.stringify(err));
+                  console.log(err.stack);
+                  return;
+                }
+                else {
+                  console.log("Successfully deleted device: " + data);
                 }
           });
 
         },
+
         // (required) Called when a remote or local notification is opened or received
         onNotification: function (notification) {
           console.log('NOTIFICATION:', notification);
