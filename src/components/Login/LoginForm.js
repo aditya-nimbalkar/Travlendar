@@ -38,7 +38,7 @@ export default class Login extends Component {
             <Text style={styles.buttonText}>LOGIN</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.linkContainer} onPress={ ()=>{ Linking.openURL('http://localhost:4200/home/register')}}>
+          <TouchableOpacity style={styles.linkContainer} onPress={ ()=>{ Linking.openURL('https://www.travlendar.com/home')}}>
             <Text style={styles.linkText}>New User? Register Here</Text>
           </TouchableOpacity>
       </View>

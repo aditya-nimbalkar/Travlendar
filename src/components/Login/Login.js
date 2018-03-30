@@ -20,7 +20,7 @@ export default class Login extends Component {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.alfred}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={ ()=>{ Linking.openURL('http://localhost:4200/home/register')}} >
+          <TouchableOpacity style={styles.buttonContainer} onPress={ ()=>{ Linking.openURL('https://www.travlendar.com/home')}} >
             <Text style={styles.buttonText}>NEW USER</Text>
           </TouchableOpacity>
         </View>
