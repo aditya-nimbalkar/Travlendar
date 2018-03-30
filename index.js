@@ -29,17 +29,22 @@ export default class TravlendarApp extends Component {
           console.log(device_token);
 
           var AWS = require('aws-sdk');
-/*
-          AWS.config.update({
-            credentials: { // Add lines to connect to the AWS SNS service
-              accessKeyId: '',
-              secretAccessKey: ''
-            },
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-west-2:8763dc1c-39ea-4734-9021-b9037792d1b3',
+          }, {
             region: 'us-west-2'
           });
+          // AWS.config.update({
+          //   credentials: { // Add lines to connect to the AWS SNS service
+          //     accessKeyId: '',
+          //     secretAccessKey: ''
+          //   },
+          //   region: 'us-west-2'
+          // });
           var sns = new AWS.SNS();
-          var endpoint_arn;
-
+          console.log(sns)
+          var endpoint_arn = "";
+/*
           sns.createPlatformEndpoint({
             PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
             Token: device_token,
