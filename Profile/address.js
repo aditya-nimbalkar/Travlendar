@@ -20,21 +20,38 @@ const styles = StyleSheet.create({
         color: mainColor,
         fontSize: 30,
     },
-    addressNameColumn: {
+    homeAddressNameColumn: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
     },
-    addressNameText: {
+    homeAddressNameText: {
         color: 'gray',
         fontSize: 14,
         fontWeight: '200',
     },
-    addressRow: {
+    homeAddressRow: {
         flex: 8,
         flexDirection: 'column',
         justifyContent: 'center',
     },
-    addressText: {
+    workAddressText: {
+        fontSize: 16,
+    },
+    workAddressNameColumn: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+    },
+    workAddressNameText: {
+        color: 'gray',
+        fontSize: 14,
+        fontWeight: '200',
+    },
+    workAddressRow: {
+        flex: 8,
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
+    workAddressText: {
         fontSize: 16,
     },
     iconRow: {
