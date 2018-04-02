@@ -56,7 +56,18 @@ export default class TravlendarApp extends Component {
                   console.log("Successfully added device: ARN = " + data);
                   endpoint_arn = data.EndpointArn;
                   console.log("EndpointARN = " + endpoint_arn)
-                  
+                  sns.deleteEndpoint({
+                      EndpointArn: endpoint_arn,
+                  }, function(err, data) {
+                        if (err) {
+                          // callback(null, JSON.stringify(err));
+                          console.log(err.stack);
+                          return;
+                        }
+                        else {
+                          console.log("Successfully deleted device: " + data);
+                        }
+                  });
                 }
           });
 
