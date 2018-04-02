@@ -11,6 +11,10 @@ import {
 import { StackNavigator } from 'react-navigation';
 
 export default class Login extends Component {
+  registerDevice() {
+    console.log("Inside register Device function");
+  }
+
   render() {
     return (
       <View style={styles.container}>

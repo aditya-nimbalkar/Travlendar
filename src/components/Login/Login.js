@@ -14,6 +14,7 @@ import LoginForm from './LoginForm';
 
 export default class Login extends Component {
   registerDevice() {
+    console.log("Inside register Device function");
   }
 
   render() {
