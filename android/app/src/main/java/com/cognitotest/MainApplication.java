@@ -1,4 +1,4 @@
-package com.cognitotest;
+package com.travlendar;
 
 import android.app.Application;
 
