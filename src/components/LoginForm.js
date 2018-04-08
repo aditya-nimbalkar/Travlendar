@@ -20,7 +20,8 @@ class LoginForm extends Component {
 
   onButtonPress() {
     const { email, password } = this.state;
-
+    console.log(email);
+    console.log(password);
     this.setState({ error: '', loading: true });
 
     Auth.signIn(email, password)
@@ -121,3 +122,76 @@ const styles = {
 };
 
 export default LoginForm;
+
+
+// import React, { Component } from 'react';
+// import { Text, View, Image, StyleSheet, TextInput, Button } from 'react-native';
+// import Amplify, { Auth } from 'aws-amplify';
+//
+//
+// import awsconfig from '../aws-exports';
+// // import { Card, CardSection, Input, Button, Spinner } from './common';
+//
+// Amplify.configure(awsconfig);
+// // const imgSrc = require('../images/travlendar_logo.png');
+//
+// type Props = {};
+//
+// class LoginForm extends Component {
+//   state = {
+//     username: 'adityanimbalkar3429@gmail.com',
+//     password: 'Password@123'
+//   }
+//
+//   signIn() {
+//     // this.setState({
+//     //   username: 'adityanimbalkar3429@gmail.com',
+//     //   password: 'Password@123'
+//     // });
+//     const { username, password } = this.state;
+//     console.log(username);
+//     console.log(password);
+//     Auth.signIn(username, password)
+//       .then(user => console.log(user))
+//       .catch(err => console.log(err));
+//   }
+//
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <Text style={styles.welcome}>
+//           TRAVLENDAR SIGNIN PAGE!
+//         </Text>
+//         <Button
+//           title="Sign In"
+//           onPress={this.signIn.bind(this)}
+//         />
+//       </View>
+//     );
+//   }
+// }
+//
+// const styles = StyleSheet.create({
+//   input: {
+//     height: 50,
+//     backgroundColor: '#ededed'
+//   },
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#F5FCFF',
+//   },
+//   welcome: {
+//     fontSize: 20,
+//     textAlign: 'center',
+//     margin: 10,
+//   },
+//   instructions: {
+//     textAlign: 'center',
+//     color: '#333333',
+//     marginBottom: 5,
+//   },
+// });
+//
+// export default LoginForm;

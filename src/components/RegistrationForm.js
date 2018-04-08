@@ -1,204 +1,100 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, StyleSheet, TextInput, Button } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
 
 
 import awsconfig from '../aws-exports';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+// import { Card, CardSection, Input, Button, Spinner } from './common';
 
 Amplify.configure(awsconfig);
-const imgSrc = require('../images/travlendar_logo.png');
 
 type Props = {};
 
 class RegistrationForm extends Component {
-  state = { email: '',
-            password: '',
-            error: '',
-            loadingSignUp: false,
-            loadingVerify: false,
-            authcode: '' };
-
-  onSignUpFail() {
-    console.log('Inside Failure function!');
-    this.setState({ error: 'Registration Failed.',
-    loadingSignUp: false,
-    loadingVerify: false, });
+  state = {
+    authCode: ''
   }
 
-  onSignUpSuccess() {
-    console.log('Inside Success function!');
+  onChangeText(value) {
     this.setState({
-      // email: '',
-      // username: '',
-      password: '',
-      error: '',
-      loadingSignUp: false,
-      loadingVerify: false,
-      authcode: ''
+      authCode: value
     });
   }
 
   signUp() {
-    const { email, username, password } = this.state;
-
-    this.setState({ error: '', loadingSignUp: true });
-
     Auth.signUp({
-      // username: username,
-      // password: password,
-      username,
-      password,
+      username: 'adityanimbalkar3429@gmail.com',
+      password: 'Password@123',
       attributes: {
-        // email: email
-        email
+        email: 'adityanimbalkar3429@gmail.com'
         // phone: ''
       }
     })
-    // .then(res => {
-    //   console.log('SIGNED UP!', res);
-    //   this.onSignUpSuccess.bind(this);
-    // })
-    // .catch(err => {
-    //   console.log('ERR: ', err);
-    //   this.onSignUpFail.bind(this);
-    // });
-    .then(this.onSignUpSuccess.bind(this))
-    .catch(this.onSignUpFail.bind(this));
+    .then(res => {
+      console.log('SIGNED UP!', res)
+    })
+    .catch(err => {
+      console.log('ERR: ', err)
+    })
   }
 
   verify() {
-    // console.log(this.state.authCode);
-    const { username, authcode } = this.state;
-
-    this.setState({ loadingVerify: true });
-
-    Auth.confirmSignUp(username, authcode)
-    // .then(res => {
-    //   console.log('CONFIRM SIGNED UP!', res);
-    //   this.onSignUpSuccess.bind(this);
-    // })
-    // .catch(err => {
-    //   console.log('CONFIRM ERR: ', err);
-    //   this.onSignUpFail.bind(this);
-    // });
-    .then(this.onSignUpSuccess.bind(this))
-    .catch(this.onSignUpFail.bind(this));
-  }
-
-  renderSignUpButton() {
-    if (this.state.loadingSignUp) {
-      return <Spinner size="small" />;
-    }
-    return (
-      <Button onPress={this.signUp.bind(this)}>
-        Sign Up!
-      </Button>
-    );
-  }
-
-  renderVerifyButton() {
-    if (this.state.loadingVerify) {
-      return <Spinner size="small" />;
-    }
-    return (
-      <Button onPress={this.verify.bind(this)}>
-        Confirm Sign Up!
-      </Button>
-    );
+    console.log(this.state.authCode)
+    Auth.confirmSignUp('adityanimbalkar3429@gmail.com', this.state.authCode)
+    .then(res => {
+      console.log('CONFIRM SIGNED UP!', res)
+    })
+    .catch(err => {
+      console.log('CONFIRM ERR: ', err)
+    })
   }
 
   render() {
     return (
-
       <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={imgSrc}
-          />
-        </View>
-
-        <Card>
-          <Card>
-            <CardSection>
-              <Input
-                placeholder='user@domain.com'
-                label='Email'
-                value={this.state.email}
-                onChangeText={email => this.setState({ email })}
-              />
-            </CardSection>
-
-            <CardSection>
-              <Input
-                placeholder='username'
-                label='Username'
-                value={this.state.username}
-                onChangeText={username => this.setState({ username })}
-              />
-            </CardSection>
-
-            <CardSection>
-              <Input
-                secureTextEntry
-                placeholder='password'
-                label='Password'
-                value={this.state.password}
-                onChangeText={password => this.setState({ password })}
-              />
-            </CardSection>
-
-            <Text style={styles.errorTextStyle}>
-              { this.state.error }
-            </Text>
-
-            <CardSection>
-              { this.renderSignUpButton() }
-            </CardSection>
-          </Card>
-
-          <Card>
-            <CardSection>
-              <Input
-                placeholder='Authentication Code'
-                label='AuthCode'
-                value={this.state.authcode}
-                onChangeText={authcode => this.setState({ authcode })}
-              />
-            </CardSection>
-
-            <CardSection>
-              { this.renderVerifyButton() }
-            </CardSection>
-          </Card>
-        </Card>
+        <Text style={styles.welcome}>
+          TRAVLENDAR SIGNUP PAGE!
+        </Text>
+        <Button
+          title="Sign Up"
+          onPress={this.signUp.bind(this)}
+        />
+        <TextInput
+        style={styles.input}
+        onChangeText={value => this.onChangeText(value)}
+        placeholder='code'
+        />
+        <Button
+          title="Confirm Code"
+          onPress={this.verify.bind(this)}
+        />
       </View>
     );
   }
+
 }
 
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  },
-  logo: {
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-    width: 330,
-    height: 120
-  },
-  logoContainer: {
-    alignItems: 'center',
-    flexGrow: 1,
-    justifyContent: 'center'
+const styles = StyleSheet.create({
+  input: {
+    height: 50,
+    backgroundColor: '#ededed'
   },
   container: {
     flex: 1,
-    backgroundColor: '#368ce7'
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
-};
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
 
 export default RegistrationForm;
