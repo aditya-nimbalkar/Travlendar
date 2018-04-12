@@ -6,8 +6,8 @@ import LoginForm from './src/components/LoginForm';
 import RegistrationForm from './src/components/RegistrationForm';
 
 const NavigationApp = StackNavigator({
-  // RegistrationForm: { screen: RegistrationForm }
-  LoginForm: { screen: LoginForm }
+  RegistrationForm: { screen: RegistrationForm }
+  // LoginForm: { screen: LoginForm }
 });
 
 class App extends Component {

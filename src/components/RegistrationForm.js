@@ -40,14 +40,14 @@ class RegistrationForm extends Component {
   }
 
   signUp() {
-    const { email, username, password } = this.state;
+    const { email, password } = this.state;
 
     this.setState({ error: '', loadingSignUp: true });
 
     Auth.signUp({
       // username: username,
       // password: password,
-      username,
+      username: email,
       password,
       attributes: {
         // email: email
@@ -55,25 +55,25 @@ class RegistrationForm extends Component {
         // phone: ''
       }
     })
-    // .then(res => {
-    //   console.log('SIGNED UP!', res);
+    .then(res => {
+      console.log('SIGNED UP!', res);
     //   this.onSignUpSuccess.bind(this);
-    // })
-    // .catch(err => {
-    //   console.log('ERR: ', err);
+    })
+    .catch(err => {
+      console.log('ERR: ', err);
     //   this.onSignUpFail.bind(this);
-    // });
-    .then(this.onSignUpSuccess.bind(this))
-    .catch(this.onSignUpFail.bind(this));
+    });
+    // .then(this.onSignUpSuccess.bind(this))
+    // .catch(this.onSignUpFail.bind(this));
   }
 
   verify() {
     // console.log(this.state.authCode);
-    const { username, authcode } = this.state;
+    const { email, authcode } = this.state;
 
     this.setState({ loadingVerify: true });
 
-    Auth.confirmSignUp(username, authcode)
+    Auth.confirmSignUp(email, authcode)
     // .then(res => {
     //   console.log('CONFIRM SIGNED UP!', res);
     //   this.onSignUpSuccess.bind(this);
@@ -88,12 +88,12 @@ class RegistrationForm extends Component {
 
   resendCode() {
 
-    const { username } = this.state;
+    const { email } = this.state;
 
-    this.setState({ loadingVerify: true });
+    // this.setState({ loadingVerify: true });
 
-    Auth.resendSignUp(username)
-    .then(console.log("Code Resent"););
+    Auth.resendSignUp(email)
+    .then(console.log("Code Resent"))
     .catch(err => console.log(err));
   }
 
@@ -119,16 +119,21 @@ class RegistrationForm extends Component {
     );
   }
 
+  renderResendButton() {
+    if (this.state.loadingVerify) {
+      return <Spinner size="small" />;
+    }
+    return (
+      <Button onPress={this.resendCode.bind(this)}>
+        Resend Code!
+      </Button>
+    );
+  }
+
   render() {
     return (
 
       <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={imgSrc}
-          />
-        </View>
 
         <Card>
           <Card>
@@ -138,15 +143,6 @@ class RegistrationForm extends Component {
                 label='Email'
                 value={this.state.email}
                 onChangeText={email => this.setState({ email })}
-              />
-            </CardSection>
-
-            <CardSection>
-              <Input
-                placeholder='username'
-                label='Username'
-                value={this.state.username}
-                onChangeText={username => this.setState({ username })}
               />
             </CardSection>
 
@@ -182,6 +178,11 @@ class RegistrationForm extends Component {
             <CardSection>
               { this.renderVerifyButton() }
             </CardSection>
+
+            <CardSection>
+              { this.renderResendButton() }
+            </CardSection>
+
           </Card>
         </Card>
       </View>
