@@ -19,6 +19,7 @@ class LoginForm extends Component {
             password: '',
             error: '',
             loading: false,
+            userState: {}
           };
 
   onButtonPress() {
@@ -28,7 +29,12 @@ class LoginForm extends Component {
     this.setState({ error: '', loading: true });
 
     Auth.signIn(email, password)
-      .then(user => console.log(user))
+      .then((user) => {
+        console.log(user);
+        this.setState( { userState: user } )
+        console.log(this.state);
+        this.onLoginSuccess();
+      })
       .catch(err => console.log(err));
 }
 
@@ -41,8 +47,9 @@ class LoginForm extends Component {
       email: '',
       password: '',
       error: '',
-      loadingSignIn: false
+      loading: false
     });
+    this.props.navigation.navigate('Welcome', { username: this.state.userState.username });
   }
 
   renderButton() {
