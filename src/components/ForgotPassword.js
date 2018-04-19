@@ -13,12 +13,48 @@ type Props = {};
 class ForgotPassword extends Component {
 
   state = { email: '',
+            password: '',
+            code: '',
             error: ''
           };
-  render() {
 
+  componentWillMount() {
     const { params } = this.props.navigation.state;
     const email = params ? params.email: null;
+    this.setState({ email: email? email: this.email });
+  }
+
+  requestCode() {
+
+      console.log(this.emailProp);
+      // this.setState({ email: email? email: this.emailProp });
+
+      const { email } = this.state;
+
+      this.setState({ error: '' });
+
+      Auth.forgotPassword(email)
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+  }
+
+  submitPassword() {
+    const { email, code, password } = this.state;
+
+    this.setState({ error: '' });
+
+    // Collect confirmation code and new password, then
+    Auth.forgotPasswordSubmit(email, code, password)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+  }
+
+  render() {
+
+    // const { params } = this.props.navigation.state;
+    // const email = params ? params.email: null;
+    // this.setState({ email: this.emailProp });
+    // console.log(emailProp);
 
     return(
       <View style={styles.container}>
@@ -36,30 +72,47 @@ class ForgotPassword extends Component {
             <Input
               placeholder='user@domain.com'
               label='Email'
-              value={email}
+              value={this.state.email}
               onChangeText={email => this.setState({ email })}
               />
-            </CardSection>
+          </CardSection>
+          <CardSection>
+            <Button onPress={this.requestCode.bind(this)}>
+              Request!
+            </Button>
+          </CardSection>
         </Card>
 
-        <CardSection>
-          <Input
-            secureTextEntry
-            placeholder='Enter New Password'
-            label='Password'
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-        </CardSection>
-        <CardSection>
-          <Input
-            secureTextEntry
-            placeholder='Re-enter New Password'
-            label='Confirm'
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-        </CardSection>
+        <Card>
+
+          <CardSection>
+            <Input
+              secureTextEntry
+              placeholder='Enter Code'
+              label='Code'
+              value={this.state.code}
+              onChangeText={code => this.setState({ code })}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Input
+              secureTextEntry
+              placeholder='Enter New Password'
+              label='Password'
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Button onPress={this.submitPassword.bind(this)}>
+              Submit!
+            </Button>
+          </CardSection>
+        </Card>
+
+
 
       </View>
     );

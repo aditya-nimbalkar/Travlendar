@@ -22,10 +22,10 @@ class LoginForm extends Component {
             userState: {}
           };
 
-  onButtonPress() {
+  login() {
     const { email, password } = this.state;
-    console.log(email);
-    console.log(password);
+    // console.log(email);
+    // console.log(password);
     this.setState({ error: '', loading: true });
 
     Auth.signIn(email, password)
@@ -57,7 +57,7 @@ class LoginForm extends Component {
       return <Spinner size="small" />;
     }
     return (
-      <Button onPress={this.onButtonPress.bind(this)}>
+      <Button onPress={this.login.bind(this)}>
         Log In!
       </Button>
     );
