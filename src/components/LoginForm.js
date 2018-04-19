@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
+import { StackNavigator } from 'react-navigation';
 
+import RegistrationForm from './RegistrationForm';
+import ForgotPassword from './ForgotPassword';
 
 import awsconfig from '../aws-exports';
 import { Card, CardSection, Input, Button, Spinner } from './common';
@@ -64,6 +67,11 @@ class LoginForm extends Component {
           />
         </View>
 
+        <Text onPress={() => this.props.navigation.navigate('RegistrationForm')}
+              style={styles.linkTextStyle}>
+          New User? Register Here!
+        </Text>
+
         <Card>
           <CardSection>
             <Input
@@ -93,6 +101,12 @@ class LoginForm extends Component {
           </CardSection>
 
         </Card>
+
+        <Text onPress={() => this.props.navigation.navigate('ForgotPassword', {email: this.state.email})}
+              style={styles.linkTextStyle}>
+          Forgot Password!
+        </Text>
+
       </View>
     );
   }
@@ -103,6 +117,10 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
+  },
+  linkTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center'
   },
   logo: {
     justifyContent: 'center',

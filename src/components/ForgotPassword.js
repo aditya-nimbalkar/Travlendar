@@ -12,10 +12,14 @@ type Props = {};
 
 class ForgotPassword extends Component {
 
-  state = { code: '',
+  state = { email: '',
             error: ''
           };
   render() {
+
+    const { params } = this.props.navigation.state;
+    const email = params ? params.email: null;
+
     return(
       <View style={styles.container}>
         <View style={styles.logoContainer}>
@@ -25,13 +29,15 @@ class ForgotPassword extends Component {
           />
         </View>
 
+
+
         <Card>
           <CardSection>
             <Input
               placeholder='user@domain.com'
               label='Email'
-              value={this.state.code}
-              onChangeText={code => this.setState({ code })}
+              value={email}
+              onChangeText={email => this.setState({ email })}
               />
             </CardSection>
         </Card>
@@ -44,6 +50,8 @@ class ForgotPassword extends Component {
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
           />
+        </CardSection>
+        <CardSection>
           <Input
             secureTextEntry
             placeholder='Re-enter New Password'
@@ -51,16 +59,6 @@ class ForgotPassword extends Component {
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
           />
-        </CardSection>
-
-        <Text style={styles.errorTextStyle}>
-          { this.state.error }
-        </Text>
-
-        <CardSection>
-          <Button onPress={}>
-            Save
-          </Button>
         </CardSection>
 
       </View>
