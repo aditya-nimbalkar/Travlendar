@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
-
+import { StackNavigator } from 'react-navigation';
 
 import awsconfig from '../aws-exports';
 import { Card, CardSection, Input, Button, Spinner } from './common';
@@ -17,24 +17,26 @@ class RegistrationForm extends Component {
             error: '',
             loadingSignUp: false,
             loadingVerify: false,
+            loadingResend: false,
             authcode: '' };
 
-  onSignUpFail() {
-    console.log('Inside Failure function!');
+  onFailure() {
+    // console.log('Inside Failure function!');
     this.setState({ error: 'Registration Failed.',
     loadingSignUp: false,
-    loadingVerify: false, });
+    loadingVerify: false,
+    loadingResend: false });
   }
 
-  onSignUpSuccess() {
-    console.log('Inside Success function!');
+  onSuccess() {
+    // console.log('Inside Success function!');
     this.setState({
       // email: '',
-      // username: '',
-      password: '',
+      // password: '',
       error: '',
       loadingSignUp: false,
       loadingVerify: false,
+      loadingResend: false,
       authcode: ''
     });
   }
@@ -45,8 +47,6 @@ class RegistrationForm extends Component {
     this.setState({ error: '', loadingSignUp: true });
 
     Auth.signUp({
-      // username: username,
-      // password: password,
       username: email,
       password,
       attributes: {
@@ -57,44 +57,48 @@ class RegistrationForm extends Component {
     })
     .then(res => {
       console.log('SIGNED UP!', res);
-    //   this.onSignUpSuccess.bind(this);
+      this.onSuccess();
     })
     .catch(err => {
       console.log('ERR: ', err);
-    //   this.onSignUpFail.bind(this);
+      this.onFailure();
     });
     // .then(this.onSignUpSuccess.bind(this))
     // .catch(this.onSignUpFail.bind(this));
   }
 
   verify() {
-    // console.log(this.state.authCode);
     const { email, authcode } = this.state;
 
     this.setState({ loadingVerify: true });
 
     Auth.confirmSignUp(email, authcode)
-    // .then(res => {
-    //   console.log('CONFIRM SIGNED UP!', res);
-    //   this.onSignUpSuccess.bind(this);
-    // })
-    // .catch(err => {
-    //   console.log('CONFIRM ERR: ', err);
-    //   this.onSignUpFail.bind(this);
-    // });
-    .then(this.onSignUpSuccess.bind(this))
-    .catch(this.onSignUpFail.bind(this));
+    .then(res => {
+      console.log('CONFIRM SIGNED UP!', res);
+      this.onSuccess();
+      this.props.navigation.navigate('LoginForm', { email: this.state.email });
+    })
+    .catch(err => {
+      console.log('CONFIRM ERR: ', err);
+      this.onFailure();
+    });
   }
 
   resendCode() {
 
     const { email } = this.state;
 
-    // this.setState({ loadingVerify: true });
+    this.setState({ loadingResend: true });
 
     Auth.resendSignUp(email)
-    .then(console.log("Code Resent"))
-    .catch(err => console.log(err));
+    .then(() => {
+      console.log("Code Resent");
+      this.onSuccess();
+    })
+    .catch(err => {
+      console.log(err);
+      this.onFailure();
+    });
   }
 
   renderSignUpButton() {
@@ -120,7 +124,7 @@ class RegistrationForm extends Component {
   }
 
   renderResendButton() {
-    if (this.state.loadingVerify) {
+    if (this.state.loadingResend) {
       return <Spinner size="small" />;
     }
     return (

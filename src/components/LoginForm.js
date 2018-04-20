@@ -22,10 +22,14 @@ class LoginForm extends Component {
             userState: {}
           };
 
+  componentWillMount() {
+    const { params } = this.props.navigation.state;
+    const email = params ? params.email: null;
+    this.setState({ email: email? email: this.email });
+  }
+
   login() {
     const { email, password } = this.state;
-    // console.log(email);
-    // console.log(password);
     this.setState({ error: '', loading: true });
 
     Auth.signIn(email, password)
