@@ -18,6 +18,12 @@ class ForgotPassword extends Component {
             error: ''
           };
 
+  static navigationOptions = {
+    // title: 'Forgot Password',
+    header: null,
+  }
+
+
   componentWillMount() {
     const { params } = this.props.navigation.state;
     const email = params ? params.email: null;
@@ -138,7 +144,8 @@ const styles = {
   },
   container: {
     flex: 1,
-    backgroundColor: '#368ce7'
+    // backgroundColor: '#368ce7'
+    backgroundColor: '#ffffff'
   },
 };
 

@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import LoginForm from './src/components/LoginForm';
 import RegistrationForm from './src/components/RegistrationForm';
 import ForgotPassword from './src/components/ForgotPassword';
+import CodeVerification from './src/components/CodeVerification';
 import Welcome from './src/components/Welcome';
 
 const NavigationApp = StackNavigator(
@@ -12,6 +13,7 @@ const NavigationApp = StackNavigator(
     RegistrationForm: { screen: RegistrationForm },
     LoginForm: { screen: LoginForm },
     ForgotPassword: { screen: ForgotPassword },
+    CodeVerification: { screen: CodeVerification },
     Welcome: { screen: Welcome },
   },
   {

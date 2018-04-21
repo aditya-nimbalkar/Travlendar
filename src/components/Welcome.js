@@ -14,7 +14,7 @@ class Welcome extends Component {
     return(
       <View>
         <Text>
-          {username}
+          Hello {username}
         </Text>
       </View>
     );

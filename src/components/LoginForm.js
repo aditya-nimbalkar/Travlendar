@@ -22,6 +22,11 @@ class LoginForm extends Component {
             userState: {}
           };
 
+  static navigationOptions = {
+    // title: 'Login',
+    header: null,
+  }
+
   componentWillMount() {
     const { params } = this.props.navigation.state;
     const email = params ? params.email: null;
@@ -130,7 +135,7 @@ const styles = {
     color: 'red'
   },
   linkTextStyle: {
-    fontSize: 20,
+    fontSize: 18,
     alignSelf: 'center'
   },
   logo: {
@@ -146,7 +151,8 @@ const styles = {
   },
   container: {
     flex: 1,
-    backgroundColor: '#368ce7'
+    // backgroundColor: '#368ce7'
+    backgroundColor: '#ffffff'
   },
 };
 

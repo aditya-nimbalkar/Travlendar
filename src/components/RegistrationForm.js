@@ -20,6 +20,14 @@ class RegistrationForm extends Component {
             loadingResend: false,
             authcode: '' };
 
+  static navigationOptions = {
+    // title: 'Registration',
+    header: null,
+  }
+
+
+
+
   onFailure() {
     // console.log('Inside Failure function!');
     this.setState({ error: 'Registration Failed.',
@@ -58,45 +66,10 @@ class RegistrationForm extends Component {
     .then(res => {
       console.log('SIGNED UP!', res);
       this.onSuccess();
+      this.props.navigation.navigate('CodeVerification', { email: this.state.email });
     })
     .catch(err => {
       console.log('ERR: ', err);
-      this.onFailure();
-    });
-    // .then(this.onSignUpSuccess.bind(this))
-    // .catch(this.onSignUpFail.bind(this));
-  }
-
-  verify() {
-    const { email, authcode } = this.state;
-
-    this.setState({ loadingVerify: true });
-
-    Auth.confirmSignUp(email, authcode)
-    .then(res => {
-      console.log('CONFIRM SIGNED UP!', res);
-      this.onSuccess();
-      this.props.navigation.navigate('LoginForm', { email: this.state.email });
-    })
-    .catch(err => {
-      console.log('CONFIRM ERR: ', err);
-      this.onFailure();
-    });
-  }
-
-  resendCode() {
-
-    const { email } = this.state;
-
-    this.setState({ loadingResend: true });
-
-    Auth.resendSignUp(email)
-    .then(() => {
-      console.log("Code Resent");
-      this.onSuccess();
-    })
-    .catch(err => {
-      console.log(err);
       this.onFailure();
     });
   }
@@ -112,34 +85,25 @@ class RegistrationForm extends Component {
     );
   }
 
-  renderVerifyButton() {
-    if (this.state.loadingVerify) {
-      return <Spinner size="small" />;
-    }
-    return (
-      <Button onPress={this.verify.bind(this)}>
-        Confirm Sign Up!
-      </Button>
-    );
-  }
-
-  renderResendButton() {
-    if (this.state.loadingResend) {
-      return <Spinner size="small" />;
-    }
-    return (
-      <Button onPress={this.resendCode.bind(this)}>
-        Resend Code!
-      </Button>
-    );
-  }
-
   render() {
     return (
 
       <View style={styles.container}>
 
+        <View style={styles.logoContainer}>
+          <Image
+            style={styles.logo}
+            source={imgSrc}
+          />
+        </View>
+
+        <Text onPress={() => this.props.navigation.navigate('LoginForm')}
+              style={styles.linkTextStyle}>
+          Existing User? Login Here!
+        </Text>
+
         <Card>
+
           <Card>
             <CardSection>
               <Input
@@ -169,25 +133,6 @@ class RegistrationForm extends Component {
             </CardSection>
           </Card>
 
-          <Card>
-            <CardSection>
-              <Input
-                placeholder='Authentication Code'
-                label='AuthCode'
-                value={this.state.authcode}
-                onChangeText={authcode => this.setState({ authcode })}
-              />
-            </CardSection>
-
-            <CardSection>
-              { this.renderVerifyButton() }
-            </CardSection>
-
-            <CardSection>
-              { this.renderResendButton() }
-            </CardSection>
-
-          </Card>
         </Card>
       </View>
     );
@@ -199,6 +144,10 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
+  },
+  linkTextStyle: {
+    fontSize: 18,
+    alignSelf: 'center'
   },
   logo: {
     justifyContent: 'center',
@@ -213,7 +162,7 @@ const styles = {
   },
   container: {
     flex: 1,
-    backgroundColor: '#368ce7'
+    backgroundColor: '#ffffff'
   },
 };
 
