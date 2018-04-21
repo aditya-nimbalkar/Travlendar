@@ -5,7 +5,13 @@ import { Card, CardSection, Input, Button, Spinner } from './common';
 
 type Props = {};
 
-class Welcome extends Component {
+class HomeScreen extends Component {
+
+  static navigationOptions = {
+    title: 'Home',
+    // header: null,
+  }
+
   render() {
 
     const { params } = this.props.navigation.state;
@@ -16,9 +22,22 @@ class Welcome extends Component {
         <Text>
           Hello {username}
         </Text>
+
+        <Card>
+          <CardSection>
+            <Button>
+              Change Password!
+            </Button>
+          </CardSection>
+          <CardSection>
+            <Button>
+              Log Out!
+            </Button>
+          </CardSection>
+        </Card>
       </View>
     );
   }
 }
 
-export default Welcome;
+export default HomeScreen;

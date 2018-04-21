@@ -58,7 +58,7 @@ class LoginForm extends Component {
       error: '',
       loading: false
     });
-    this.props.navigation.navigate('Welcome', { username: this.state.userState.username });
+    this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username });
   }
 
   renderButton() {
@@ -91,6 +91,8 @@ class LoginForm extends Component {
         <Card>
           <CardSection>
             <Input
+              autoFocus
+              autoCapitalize='none'
               placeholder='user@domain.com'
               label='Email'
               value={this.state.email}

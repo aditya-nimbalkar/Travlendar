@@ -6,7 +6,7 @@ import LoginForm from './src/components/LoginForm';
 import RegistrationForm from './src/components/RegistrationForm';
 import ForgotPassword from './src/components/ForgotPassword';
 import CodeVerification from './src/components/CodeVerification';
-import Welcome from './src/components/Welcome';
+import HomeScreen from './src/components/HomeScreen';
 
 const NavigationApp = StackNavigator(
   {
@@ -14,7 +14,7 @@ const NavigationApp = StackNavigator(
     LoginForm: { screen: LoginForm },
     ForgotPassword: { screen: ForgotPassword },
     CodeVerification: { screen: CodeVerification },
-    Welcome: { screen: Welcome },
+    HomeScreen: { screen: HomeScreen },
   },
   {
     initialRouteName: 'LoginForm',
