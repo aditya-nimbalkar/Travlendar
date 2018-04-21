@@ -76,6 +76,8 @@ class ForgotPassword extends Component {
         <Card>
           <CardSection>
             <Input
+              // autoFocus
+              autoCapitalize='none'
               placeholder='user@domain.com'
               label='Email'
               value={this.state.email}

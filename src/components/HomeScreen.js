@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
 
+import Amplify, { Auth } from 'aws-amplify';
+
+import awsconfig from '../aws-exports';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
+Amplify.configure(awsconfig);
 type Props = {};
 
 class HomeScreen extends Component {
@@ -10,6 +14,16 @@ class HomeScreen extends Component {
   static navigationOptions = {
     title: 'Home',
     // header: null,
+  }
+
+  logout() {
+    Auth.signOut()
+      .then(data => {
+        console.log(data);
+        console.log('Logged Out');
+        this.props.navigation.navigate('LoginForm');
+      })
+      .catch(err => console.log('ERR: ', err));
   }
 
   render() {
@@ -30,7 +44,7 @@ class HomeScreen extends Component {
             </Button>
           </CardSection>
           <CardSection>
-            <Button>
+            <Button onPress={this.logout.bind(this)}>
               Log Out!
             </Button>
           </CardSection>

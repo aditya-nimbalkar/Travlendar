@@ -143,6 +143,7 @@ const styles = {
   logo: {
     justifyContent: 'center',
     backgroundColor: '#ffffff',
+    // backgroundColor: '#AED6F1',
     width: 330,
     height: 120
   },
@@ -153,7 +154,7 @@ const styles = {
   },
   container: {
     flex: 1,
-    // backgroundColor: '#368ce7'
+    // backgroundColor: '#AED6F1'
     backgroundColor: '#ffffff'
   },
 };
