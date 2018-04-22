@@ -6,10 +6,11 @@ import { StackNavigator } from 'react-navigation';
 import RegistrationForm from './RegistrationForm';
 import ForgotPassword from './ForgotPassword';
 
-import awsconfig from '../aws-exports';
+import config from '../aws-exports';
 import { Card, CardSection, Input, Button, Spinner } from './common';
+import PushNotification from 'react-native-push-notification';
 
-Amplify.configure(awsconfig);
+Amplify.configure(config);
 const imgSrc = require('../images/travlendar_logo.png');
 
 type Props = {};
@@ -44,7 +45,10 @@ class LoginForm extends Component {
         console.log(this.state);
         this.onLoginSuccess();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.onLoginFail();
+      });
 }
 
   onLoginFail() {
@@ -58,6 +62,65 @@ class LoginForm extends Component {
       error: '',
       loading: false
     });
+    var user_email = this.state.userState.username;
+    PushNotification.configure({
+        // (optional) Called when Token is generated (iOS and Android)
+        onRegister: function (token) {
+          var AWS = require('aws-sdk');
+          AWS.config.update({
+            region: 'us-west-2'
+          });
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-west-2:8763dc1c-39ea-4734-9021-b9037792d1b3',
+          }, {
+            region: 'us-west-2'
+          });
+          var sns = new AWS.SNS();
+
+          console.log('TOKEN:', token);
+          var device_token = token.token;
+          console.log(device_token);
+
+          console.log(sns)
+          var endpoint_arn = "";
+
+          sns.createPlatformEndpoint({
+            PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
+            Token: device_token,
+            CustomUserData: user_email
+          }, function(err, data) {
+                if (err) {
+                  // callback(null, JSON.stringify(err));
+                  console.log(err.stack);
+                  return;
+                }
+                else {
+                  console.log("Successfully added device: ARN = " + data);
+                  endpoint_arn = data.EndpointArn;
+                  console.log("EndpointARN = " + endpoint_arn)
+                }
+          });
+
+        },
+
+        // (required) Called when a remote or local notification is opened or received
+        onNotification: function (notification) {
+          console.log('NOTIFICATION:', notification);
+        },
+        // ANDROID ONLY: GCM Sender ID (optional — not required for local notifications, but is need to receive remote push notifications)
+        senderID: "383990736767",
+        // IOS ONLY (optional): default: all — Permissions to register.
+        permissions: {
+          alert: true,
+          badge: true,
+          sound: true
+        },
+        // Should the initial notification be popped automatically
+        // default: true
+        popInitialNotification: true,
+
+        requestPermissions: true,
+      });
     this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username });
   }
 

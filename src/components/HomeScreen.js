@@ -17,9 +17,10 @@ class HomeScreen extends Component {
   }
 
   logout() {
+    console.log("Logout button clicked");
     Auth.signOut()
       .then(data => {
-        console.log(data);
+        console.log("Here:" + data);
         console.log('Logged Out');
         this.props.navigation.navigate('LoginForm');
       })

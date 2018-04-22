@@ -4,7 +4,9 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.amazonaws.RNAWSCognitoPackage;
-import com.amazonaws.RNAWSCognitoPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -25,8 +27,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            // new RNAWSCognitoPackage(),
-            new RNAWSCognitoPackage()
+            new RNAWSCognitoPackage(),
+            new ReactNativePushNotificationPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage()
       );
     }
 
