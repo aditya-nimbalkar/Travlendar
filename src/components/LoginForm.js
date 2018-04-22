@@ -20,7 +20,8 @@ class LoginForm extends Component {
             password: '',
             error: '',
             loading: false,
-            userState: {}
+            userState: {},
+            endpoint: ''
           };
 
   static navigationOptions = {
@@ -62,7 +63,9 @@ class LoginForm extends Component {
       error: '',
       loading: false
     });
-    var user_email = this.state.userState.username
+    var user_email = this.state.userState.username;
+    var endpoint_arn = "";
+
     PushNotification.configure({
         // (optional) Called when Token is generated (iOS and Android)
         onRegister: function (token) {
@@ -82,7 +85,6 @@ class LoginForm extends Component {
           console.log(device_token);
 
           console.log(sns)
-          var endpoint_arn = "";
 
           sns.createPlatformEndpoint({
             PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
@@ -97,8 +99,7 @@ class LoginForm extends Component {
                 else {
                   console.log("Successfully added device: ARN = " + data);
                   endpoint_arn = data.EndpointArn;
-                  console.log("EndpointARN = " + endpoint_arn)
-                  
+                  console.log("EndpointARN = " + endpoint_arn);
                 }
           });
 
@@ -122,7 +123,10 @@ class LoginForm extends Component {
 
         requestPermissions: true,
       });
-    this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username });
+      // this.setState({ endpoint: endpoint_arn });
+      // console.log("AAA ", this.state.endpoint);
+      // console.log(this.state.endpoint);
+      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username, endpoint: this.state.endpoint });
   }
 
   renderButton() {
