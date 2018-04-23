@@ -22,7 +22,7 @@ class HomeScreen extends Component {
   }
 
   logout() {
-    console.log("Logout button clicked");
+    // console.log("Logout button clicked");
     // var endpoint_arn = this.state.endpoint;
     // console.log(endpoint_arn);
     //
