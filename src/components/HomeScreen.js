@@ -13,7 +13,8 @@ type Props = {};
 class HomeScreen extends Component {
 
   state = {
-    endpoint: ''
+    endpoint: '',
+    loadingLogout: false
   };
 
   static navigationOptions = {
@@ -76,7 +77,7 @@ class HomeScreen extends Component {
 
         <Card>
           <CardSection>
-            <Button>
+            <Button onPress={this.props.navigation.navigate('ChangePassword');}>
               Change Password!
             </Button>
           </CardSection>
