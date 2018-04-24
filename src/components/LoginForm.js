@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, AsyncStorage } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
 import { StackNavigator } from 'react-navigation';
 
@@ -50,10 +50,18 @@ class LoginForm extends Component {
         console.log(err);
         this.onLoginFail();
       });
-}
+  }
 
   onLoginFail() {
     this.setState({ error: 'Authentication Failed.', loading: false });
+  }
+
+  async saveEndpoint(endpoint) {
+    try {
+      await AsyncStorage.setItem('@MySuperStore:EndpointARN', endpoint);
+    } catch (error) {
+      console.log("Error saving data" + error);
+    }
   }
 
   onLoginSuccess() {
@@ -100,9 +108,10 @@ class LoginForm extends Component {
                   console.log("Successfully added device: ARN = " + data);
                   endpoint_arn = data.EndpointArn;
                   console.log("EndpointARN = " + endpoint_arn);
+                  this.saveEndpoint(endpoint_arn);
+
                 }
           });
-
         },
 
         // (required) Called when a remote or local notification is opened or received
@@ -125,8 +134,8 @@ class LoginForm extends Component {
       });
       // this.setState({ endpoint: endpoint_arn });
       // console.log("AAA ", this.state.endpoint);
-      // console.log(this.state.endpoint);
-      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username, endpoint: this.state.endpoint });
+      console.log(endpoint_arn);
+      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username});
   }
 
   renderButton() {

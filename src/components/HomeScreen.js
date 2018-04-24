@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, AsyncStorage } from 'react-native';
 
 import Amplify, { Auth } from 'aws-amplify';
 
@@ -21,8 +21,25 @@ class HomeScreen extends Component {
     // header: null,
   }
 
+  componentDidMount() {
+    console.log("Component mounted")
+
+  }
+
+  async getEndpoint() {
+    try {
+      const value = await AsyncStorage.getItem('@MySuperStore:EndpointARN');
+      this.setState({endpoint: value});
+    } catch (error) {
+      console.log("Error retrieving data" + error);
+    }
+  }
+
   logout() {
     console.log("Logout button clicked");
+    this.getEndpoint.bind(this);
+    console.log("YO: " + this.state.endpoint)
+    // console.log("AAA " + this.state.endpoint)
     // var endpoint_arn = this.state.endpoint;
     // console.log(endpoint_arn);
     //
@@ -66,7 +83,6 @@ class HomeScreen extends Component {
 
     const { params } = this.props.navigation.state;
     const username = params ? params.username : null;
-    const endpoint = params ? params.endpoint : null;
 
     return(
       <View>
