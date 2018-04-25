@@ -12,6 +12,7 @@ type Props = {};
 
 class ChangePassword extends Component {
   state = {
+    // user: {},
     oldPassword: '',
     newPassword: '',
     loadingChangePassword: false,
@@ -23,37 +24,58 @@ class ChangePassword extends Component {
     // header: null,
   }
 
-  // componentWillMount() {
-  //   const { params } = this.props.navigation.state;
-  //   const email = params ? params.email: null;
-  //   this.setState({ email: email? email: this.email });
-  // }
+  componentWillMount() {
+    const { params } = this.props.navigation.state;
+    const user = params ? params.user: null;
+    this.setState({ user });
+    // console.log(user);
+  }
 
   changePassword() {
     const { oldPassword, newPassword } = this.state;
     this.setState({ loadingChangePassword: true, error: '' });
-
-    Auth.currentAuthenticatedUser()
-    .then(user => {
-        return Auth.changePassword(user, 'oldPassword', 'newPassword');
+    console.log(this.state.user);
+    Auth.changePassword(this.state.user, oldPassword, newPassword)
+    .then(data => {
+      console.log('Password Change Success');
+      console.log(data);
+      this.setState({ loadingChangePassword: false });
+      this.props.navigation.navigate('HomeScreen', { userState: this.state.user });
     })
-      .then(data => {
-        console.log('Password Change Success');
-        console.log(data);
-        this.setState({ loadingChangePassword: false });
-        this.props.navigation.navigate('HomeScreen');
-      })
-      .catch(err => {
-        console.log('Password Change Error');
-        console.log(err);
-        // if (typeof err !== null && typeof err === 'object') {
-        //     // this.setState({ error: 'Registration Failed.' });
-        //     this.setState({ error: err.message });
-        // } else {
-        //     this.setState({ error: err });
-        // }
-        this.setState({ loadingChangePassword: false });
-      });
+    .catch(err => {
+      console.log('Password Change Error');
+      console.log(err);
+      // if (typeof err !== null && typeof err === 'object') {
+      //     // this.setState({ error: 'Registration Failed.' });
+      //     this.setState({ error: err.message });
+      // } else {
+      //     this.setState({ error: err });
+      // }
+      this.setState({ loadingChangePassword: false });
+    });
+
+    // Auth.currentAuthenticatedUser()
+    // .then(user => {
+    //     console.log(user);
+    //     return Auth.changePassword(user, oldPassword, newPassword);
+    // })
+    //   .then(data => {
+    //     console.log('Password Change Success');
+    //     console.log(data);
+    //     this.setState({ loadingChangePassword: false });
+    //     this.props.navigation.navigate('HomeScreen');
+    //   })
+    //   .catch(err => {
+    //     console.log('Password Change Error');
+    //     console.log(err);
+    //     // if (typeof err !== null && typeof err === 'object') {
+    //     //     // this.setState({ error: 'Registration Failed.' });
+    //     //     this.setState({ error: err.message });
+    //     // } else {
+    //     //     this.setState({ error: err });
+    //     // }
+    //     this.setState({ loadingChangePassword: false });
+    //   });
   }
 
   renderButton() {
@@ -68,7 +90,8 @@ class ChangePassword extends Component {
   }
 
   render() {
-    <View style={styles.container}>
+    return (
+      <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
@@ -92,7 +115,7 @@ class ChangePassword extends Component {
           <Input
             secureTextEntry
             placeholder='Enter New Password'
-            label='Password'
+            label='New Password'
             value={this.state.newPassword}
             onChangeText={newPassword => this.setState({ newPassword })}
           />
@@ -103,11 +126,12 @@ class ChangePassword extends Component {
         </Text>
 
         <CardSection>
-          { this.renderButton }
+          { this.renderButton() }
         </CardSection>
       </Card>
 
     </View>
+  );
   }
 }
 

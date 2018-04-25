@@ -14,12 +14,22 @@ class HomeScreen extends Component {
 
   state = {
     endpoint: '',
+    user: '',
     loadingLogout: false
   };
 
   static navigationOptions = {
     title: 'Home',
     // header: null,
+  }
+
+  componentWillMount() {
+    const { params } = this.props.navigation.state;
+    const username = params ? params.username : null;
+    const endpoint = params ? params.endpoint : null;
+    const userState = params ? params.userState : null;
+    console.log(userState);
+    this.setState({ user: userState });
   }
 
   logout() {
@@ -63,21 +73,26 @@ class HomeScreen extends Component {
       .catch(err => console.log('ERR: ', err));
   }
 
+  changePassword() {
+    this.props.navigation.navigate('ChangePassword', { user: this.state.user });
+  }
+
   render() {
 
-    const { params } = this.props.navigation.state;
-    const username = params ? params.username : null;
-    const endpoint = params ? params.endpoint : null;
+    // const { params } = this.props.navigation.state;
+    // const username = params ? params.username : null;
+    // const endpoint = params ? params.endpoint : null;
+    // const userState = params ? params.userState : null;
 
     return(
       <View>
         <Text>
-          Hello {username}
+          Hello {this.state.user.username}
         </Text>
 
         <Card>
           <CardSection>
-            <Button onPress={this.props.navigation.navigate('ChangePassword');}>
+            <Button onPress={this.changePassword.bind(this)}>
               Change Password!
             </Button>
           </CardSection>

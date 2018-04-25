@@ -134,7 +134,7 @@ class LoginForm extends Component {
       // this.setState({ endpoint: endpoint_arn });
       // console.log("AAA ", this.state.endpoint);
       // console.log(this.state.endpoint);
-      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username, endpoint: this.state.endpoint });
+      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username, endpoint: this.state.endpoint, userState: this.state.userState });
   }
 
   renderButton() {
