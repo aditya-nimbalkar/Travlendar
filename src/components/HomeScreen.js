@@ -12,68 +12,78 @@ type Props = {};
 
 class HomeScreen extends Component {
 
-  state = {
-    endpoint: ''
-  };
-
   static navigationOptions = {
     title: 'Home',
     // header: null,
   }
 
-  componentDidMount() {
-    console.log("Component mounted")
-
-  }
-
-  async getEndpoint() {
-    try {
-      const value = await AsyncStorage.getItem('@MySuperStore:EndpointARN');
-      this.setState({endpoint: value});
-    } catch (error) {
-      console.log("Error retrieving data" + error);
-    }
-  }
-
   logout() {
-    console.log("Logout button clicked");
-    this.getEndpoint.bind(this);
-    console.log("YO: " + this.state.endpoint)
-    // console.log("AAA " + this.state.endpoint)
-    // var endpoint_arn = this.state.endpoint;
-    // console.log(endpoint_arn);
-    //
-    // PushNotification.configure({
-    //   // (optional) Called when Token is generated (iOS and Android)
-    //   onRegister: function (token) {
-    //     var AWS = require('aws-sdk');
-    //     AWS.config.update({
-    //       region: 'us-west-2'
-    //     });
-    //     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    //       IdentityPoolId: 'us-west-2:8763dc1c-39ea-4734-9021-b9037792d1b3',
-    //     }, {
-    //       region: 'us-west-2'
-    //     });
-    //     var sns = new AWS.SNS();
-    //     sns.deleteEndpoint({
-    //         EndpointArn: endpoint_arn,
-    //     }, function(err, data) {
-    //           if (err) {
-    //             // callback(null, JSON.stringify(err));
-    //             console.log(err.stack);
-    //             return;
-    //           }
-    //           else {
-    //             console.log("Successfully deleted device: " + data);
-    //           }
-    //     });
-    //   }
-    // });
+    PushNotification.configure({
+        // (optional) Called when Token is generated (iOS and Android)
+        onRegister: function (token) {
+          var AWS = require('aws-sdk');
+          AWS.config.update({
+            region: 'us-west-2'
+          });
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-west-2:8763dc1c-39ea-4734-9021-b9037792d1b3',
+          }, {
+            region: 'us-west-2'
+          });
+          var sns = new AWS.SNS();
+          var device_token = token.token;
+
+          sns.createPlatformEndpoint({
+            PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
+            Token: device_token,
+            CustomUserData: "User Removed"
+          }, function(err, data) {
+                var endpoint_arn = '';
+                if (err) {
+                  var error_object = JSON.stringify(err);
+                  if(err.code == "InvalidParameter") {
+                    endpoint_arn = err.message.split(" ")[5];
+                  }
+                  sns.deleteEndpoint({
+                      EndpointArn: endpoint_arn,
+                  }, function(err, data) {
+                        if (err) {
+                          console.log(err.stack);
+                          return;
+                        }
+                        else {
+                          console.log("Successfully deleted device: " + endpoint_arn);
+                        }
+                  });
+                }
+                else {
+                  console.log("New endpoint created. Please check backend!")
+                }
+          });
+        },
+
+        // // (required) Called when a remote or local notification is opened or received
+        // onNotification: function (notification) {
+        //   console.log('NOTIFICATION:', notification);
+        // },
+        // // ANDROID ONLY: GCM Sender ID (optional — not required for local notifications, but is need to receive remote push notifications)
+        // senderID: "383990736767",
+        // // IOS ONLY (optional): default: all — Permissions to register.
+        // permissions: {
+        //   alert: true,
+        //   badge: true,
+        //   sound: true
+        // },
+        // // Should the initial notification be popped automatically
+        // // default: true
+        // popInitialNotification: true,
+        //
+        // requestPermissions: true,
+    });
+    console.log("Here");
     Auth.signOut()
       .then(data => {
-        console.log("Here:" + data);
-        console.log('Logged Out');
+        console.log('User Logged Out');
         this.props.navigation.navigate('LoginForm');
       })
       .catch(err => console.log('ERR: ', err));
