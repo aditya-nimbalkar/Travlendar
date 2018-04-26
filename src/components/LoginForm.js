@@ -111,6 +111,23 @@ class LoginForm extends Component {
                 }
           });
 
+          // sns.createPlatformEndpoint({
+          //   PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
+          //   Token: device_token,
+          //   CustomUserData: user_email
+          // })
+          // .then(data => {
+          //   console.log("Successfully added device: ARN = " + data);
+          //   endpoint_arn = data.EndpointArn;
+          //   console.log("EndpointARN = " + endpoint_arn);
+          // })
+          // .catch(err => {
+          //   // callback(null, JSON.stringify(err));
+          //   console.log(err.stack);
+          //   return;
+          // });
+
+
         },
 
         // (required) Called when a remote or local notification is opened or received

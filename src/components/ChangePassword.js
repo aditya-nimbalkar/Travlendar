@@ -105,7 +105,7 @@ class ChangePassword extends Component {
           <Input
             secureTextEntry
             placeholder='Enter Old Password'
-            label='OldPassword'
+            label='Old Password'
             value={this.state.oldPassword}
             onChangeText={oldPassword => this.setState({ oldPassword })}
           />
