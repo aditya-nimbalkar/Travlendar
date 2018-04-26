@@ -33,41 +33,56 @@ class HomeScreen extends Component {
   }
 
   logout() {
-    // console.log("Logout button clicked");
-    // var endpoint_arn = this.state.endpoint;
-    // console.log(endpoint_arn);
-    //
-    // PushNotification.configure({
-    //   // (optional) Called when Token is generated (iOS and Android)
-    //   onRegister: function (token) {
-    //     var AWS = require('aws-sdk');
-    //     AWS.config.update({
-    //       region: 'us-west-2'
-    //     });
-    //     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    //       IdentityPoolId: 'us-west-2:8763dc1c-39ea-4734-9021-b9037792d1b3',
-    //     }, {
-    //       region: 'us-west-2'
-    //     });
-    //     var sns = new AWS.SNS();
-    //     sns.deleteEndpoint({
-    //         EndpointArn: endpoint_arn,
-    //     }, function(err, data) {
-    //           if (err) {
-    //             // callback(null, JSON.stringify(err));
-    //             console.log(err.stack);
-    //             return;
-    //           }
-    //           else {
-    //             console.log("Successfully deleted device: " + data);
-    //           }
-    //     });
-    //   }
-    // });
+
+    PushNotification.configure({
+        // (optional) Called when Token is generated (iOS and Android)
+        onRegister: function (token) {
+          var AWS = require('aws-sdk');
+          AWS.config.update({
+            region: 'us-west-2'
+          });
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-west-2:8763dc1c-39ea-4734-9021-b9037792d1b3',
+          }, {
+            region: 'us-west-2'
+          });
+          var sns = new AWS.SNS();
+          var device_token = token.token;
+
+          sns.createPlatformEndpoint({
+            PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
+            Token: device_token,
+            CustomUserData: "User Removed"
+          }, function(err, data) {
+                var endpoint_arn = '';
+                if (err) {
+                  var error_object = JSON.stringify(err);
+                  if(err.code == "InvalidParameter") {
+                    endpoint_arn = err.message.split(" ")[5];
+                  }
+                  sns.deleteEndpoint({
+                      EndpointArn: endpoint_arn,
+                  }, function(err, data) {
+                        if (err) {
+                          console.log(err.stack);
+                          return;
+                        }
+                        else {
+                          console.log("Successfully deleted device: " + endpoint_arn);
+                        }
+                  });
+                }
+                else {
+                  console.log("New endpoint created. Please check backend!")
+                }
+          });
+        },
+
+    });
+    
     Auth.signOut()
       .then(data => {
-        console.log("Here:" + data);
-        console.log('Logged Out');
+        console.log('User Logged Out');
         this.props.navigation.navigate('LoginForm');
       })
       .catch(err => console.log('ERR: ', err));
@@ -78,11 +93,10 @@ class HomeScreen extends Component {
   }
 
   render() {
+    
+    const { params } = this.props.navigation.state;
+    const username = params ? params.username : null;
 
-    // const { params } = this.props.navigation.state;
-    // const username = params ? params.username : null;
-    // const endpoint = params ? params.endpoint : null;
-    // const userState = params ? params.userState : null;
 
     return(
       <View>
