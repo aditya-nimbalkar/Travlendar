@@ -34,48 +34,48 @@ class ChangePassword extends Component {
   changePassword() {
     const { oldPassword, newPassword } = this.state;
     this.setState({ loadingChangePassword: true, error: '' });
-    console.log(this.state.user);
-    Auth.changePassword(this.state.user, oldPassword, newPassword)
-    .then(data => {
-      console.log('Password Change Success');
-      console.log(data);
-      this.setState({ loadingChangePassword: false });
-      this.props.navigation.navigate('HomeScreen', { userState: this.state.user });
-    })
-    .catch(err => {
-      console.log('Password Change Error');
-      console.log(err);
-      // if (typeof err !== null && typeof err === 'object') {
-      //     // this.setState({ error: 'Registration Failed.' });
-      //     this.setState({ error: err.message });
-      // } else {
-      //     this.setState({ error: err });
-      // }
-      this.setState({ loadingChangePassword: false });
-    });
-
-    // Auth.currentAuthenticatedUser()
-    // .then(user => {
-    //     console.log(user);
-    //     return Auth.changePassword(user, oldPassword, newPassword);
+    // console.log(this.state.user);
+    // Auth.changePassword(this.state.user, oldPassword, newPassword)
+    // .then(data => {
+    //   console.log('Password Change Success');
+    //   console.log(data);
+    //   this.setState({ loadingChangePassword: false });
+    //   this.props.navigation.navigate('HomeScreen', { userState: this.state.user });
     // })
-    //   .then(data => {
-    //     console.log('Password Change Success');
-    //     console.log(data);
-    //     this.setState({ loadingChangePassword: false });
-    //     this.props.navigation.navigate('HomeScreen');
-    //   })
-    //   .catch(err => {
-    //     console.log('Password Change Error');
-    //     console.log(err);
-    //     // if (typeof err !== null && typeof err === 'object') {
-    //     //     // this.setState({ error: 'Registration Failed.' });
-    //     //     this.setState({ error: err.message });
-    //     // } else {
-    //     //     this.setState({ error: err });
-    //     // }
-    //     this.setState({ loadingChangePassword: false });
-    //   });
+    // .catch(err => {
+    //   console.log('Password Change Error');
+    //   console.log(err);
+    //   // if (typeof err !== null && typeof err === 'object') {
+    //   //     // this.setState({ error: 'Registration Failed.' });
+    //   //     this.setState({ error: err.message });
+    //   // } else {
+    //   //     this.setState({ error: err });
+    //   // }
+    //   this.setState({ loadingChangePassword: false });
+    // });
+
+    Auth.currentAuthenticatedUser()
+    .then(user => {
+        console.log(user);
+        return Auth.changePassword(user, oldPassword, newPassword);
+    })
+      .then(data => {
+        console.log('Password Change Success');
+        console.log(data);
+        this.setState({ loadingChangePassword: false });
+        this.props.navigation.navigate('HomeScreen', { userState: this.state.user });
+      })
+      .catch(err => {
+        console.log('Password Change Error');
+        console.log(err);
+        if (typeof err !== null && typeof err === 'object') {
+            // this.setState({ error: 'Registration Failed.' });
+            this.setState({ error: err.message });
+        } else {
+            this.setState({ error: err });
+        }
+        this.setState({ loadingChangePassword: false });
+      });
   }
 
   renderButton() {
