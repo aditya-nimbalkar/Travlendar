@@ -20,8 +20,7 @@ class LoginForm extends Component {
             password: '',
             error: '',
             loading: false,
-            userState: {},
-            endpoint: ''
+            userState: {}
           };
 
   static navigationOptions = {
@@ -41,16 +40,14 @@ class LoginForm extends Component {
 
     Auth.signIn(email, password)
       .then((user) => {
-        console.log(user);
         this.setState( { userState: user } )
-        console.log(this.state);
         this.onLoginSuccess();
       })
       .catch(err => {
         console.log(err);
         this.onLoginFail();
       });
-}
+  }
 
   onLoginFail() {
     this.setState({ error: 'Authentication Failed.', loading: false });
@@ -79,12 +76,7 @@ class LoginForm extends Component {
             region: 'us-west-2'
           });
           var sns = new AWS.SNS();
-
-          console.log('TOKEN:', token);
           var device_token = token.token;
-          console.log(device_token);
-
-          console.log(sns)
 
           sns.createPlatformEndpoint({
             PlatformApplicationArn:  'arn:aws:sns:us-west-2:016911789346:app/GCM/Travlendar',
@@ -92,17 +84,13 @@ class LoginForm extends Component {
             CustomUserData: user_email
           }, function(err, data) {
                 if (err) {
-                  // callback(null, JSON.stringify(err));
-                  console.log(err.stack);
                   return;
                 }
                 else {
-                  console.log("Successfully added device: ARN = " + data);
                   endpoint_arn = data.EndpointArn;
-                  console.log("EndpointARN = " + endpoint_arn);
+                  console.log("Successfully added device: " + endpoint_arn);
                 }
           });
-
         },
 
         // (required) Called when a remote or local notification is opened or received
@@ -123,10 +111,8 @@ class LoginForm extends Component {
 
         requestPermissions: true,
       });
-      // this.setState({ endpoint: endpoint_arn });
-      // console.log("AAA ", this.state.endpoint);
-      // console.log(this.state.endpoint);
-      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username, endpoint: this.state.endpoint });
+
+      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username});
   }
 
   renderButton() {
