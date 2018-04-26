@@ -32,9 +32,6 @@ class ForgotPassword extends Component {
 
   requestCode() {
 
-      console.log(this.emailProp);
-      // this.setState({ email: email? email: this.emailProp });
-
       const { email } = this.state;
 
       this.setState({ error: '' });
@@ -51,7 +48,11 @@ class ForgotPassword extends Component {
 
     // Collect confirmation code and new password, then
     Auth.forgotPasswordSubmit(email, code, password)
-      .then(data => console.log(data))
+      .then(data => {
+        console.log(data);
+        console.log('Password Changed!')
+        this.props.navigation.navigate('LoginForm', { email: this.state.email });
+      })
       .catch(err => console.log(err));
   }
 

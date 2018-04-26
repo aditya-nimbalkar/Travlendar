@@ -12,12 +12,28 @@ type Props = {};
 
 class HomeScreen extends Component {
 
+  state = {
+    endpoint: '',
+    user: '',
+    loadingLogout: false
+  };
+
   static navigationOptions = {
     title: 'Home',
     // header: null,
   }
 
+  componentWillMount() {
+    const { params } = this.props.navigation.state;
+    const username = params ? params.username : null;
+    const endpoint = params ? params.endpoint : null;
+    const userState = params ? params.userState : null;
+    console.log(userState);
+    this.setState({ user: userState });
+  }
+
   logout() {
+
     PushNotification.configure({
         // (optional) Called when Token is generated (iOS and Android)
         onRegister: function (token) {
@@ -72,20 +88,25 @@ class HomeScreen extends Component {
       .catch(err => console.log('ERR: ', err));
   }
 
-  render() {
+  changePassword() {
+    this.props.navigation.navigate('ChangePassword', { user: this.state.user });
+  }
 
+  render() {
+    
     const { params } = this.props.navigation.state;
     const username = params ? params.username : null;
+
 
     return(
       <View>
         <Text>
-          Hello {username}
+          Hello {this.state.user.username}
         </Text>
 
         <Card>
           <CardSection>
-            <Button>
+            <Button onPress={this.changePassword.bind(this)}>
               Change Password!
             </Button>
           </CardSection>

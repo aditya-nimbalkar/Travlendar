@@ -30,7 +30,8 @@ class RegistrationForm extends Component {
 
   onFailure() {
     // console.log('Inside Failure function!');
-    this.setState({ error: 'Registration Failed.',
+    this.setState({
+    // error: 'Registration Failed.',
     loadingSignUp: false,
     loadingVerify: false,
     loadingResend: false });
@@ -70,6 +71,14 @@ class RegistrationForm extends Component {
     })
     .catch(err => {
       console.log('ERR: ', err);
+      // console.log(err.message)
+      if (typeof err !== null && typeof err === 'object') {
+          // this.setState({ error: 'Registration Failed.' });
+          this.setState({ error: err.message });
+      } else {
+          this.setState({ error: err });
+      }
+      // this.setState({ error: err });
       this.onFailure();
     });
   }

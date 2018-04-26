@@ -45,12 +45,20 @@ class LoginForm extends Component {
       })
       .catch(err => {
         console.log(err);
+        if (typeof err !== null && typeof err === 'object') {
+            // this.setState({ error: 'Registration Failed.' });
+            this.setState({ error: err.message });
+        } else {
+            this.setState({ error: err });
+        }
         this.onLoginFail();
       });
   }
 
   onLoginFail() {
-    this.setState({ error: 'Authentication Failed.', loading: false });
+    this.setState({
+      // error: 'Authentication Failed.',
+      loading: false });
   }
 
   onLoginSuccess() {
@@ -113,6 +121,7 @@ class LoginForm extends Component {
       });
 
       this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username});
+
   }
 
   renderButton() {
