@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, AsyncStorage } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
 import { StackNavigator } from 'react-navigation';
 

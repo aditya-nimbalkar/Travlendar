@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, AsyncStorage } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
 import Amplify, { Auth } from 'aws-amplify';
 
@@ -62,25 +62,8 @@ class HomeScreen extends Component {
           });
         },
 
-        // // (required) Called when a remote or local notification is opened or received
-        // onNotification: function (notification) {
-        //   console.log('NOTIFICATION:', notification);
-        // },
-        // // ANDROID ONLY: GCM Sender ID (optional — not required for local notifications, but is need to receive remote push notifications)
-        // senderID: "383990736767",
-        // // IOS ONLY (optional): default: all — Permissions to register.
-        // permissions: {
-        //   alert: true,
-        //   badge: true,
-        //   sound: true
-        // },
-        // // Should the initial notification be popped automatically
-        // // default: true
-        // popInitialNotification: true,
-        //
-        // requestPermissions: true,
     });
-    console.log("Here");
+    
     Auth.signOut()
       .then(data => {
         console.log('User Logged Out');
