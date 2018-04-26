@@ -120,7 +120,7 @@ class LoginForm extends Component {
         requestPermissions: true,
       });
 
-      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username});
+      this.props.navigation.navigate('HomeScreen', { username: this.state.userState.username, endpoint: this.state.endpoint, userState: this.state.userState });
 
   }
 
