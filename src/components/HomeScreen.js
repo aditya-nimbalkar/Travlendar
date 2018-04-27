@@ -102,7 +102,7 @@ class HomeScreen extends Component {
 
     return(
       <View style={styles.container}>
-        <Text style={ styles.linkTextStyle }>
+        <Text style={ styles.welcomeTextStyle }>
           Hello {this.state.user.username}
         </Text>
         <View style={styles.logoContainer}>
@@ -119,7 +119,7 @@ class HomeScreen extends Component {
         </Text>
 
         <TouchableOpacity onPress={ ()=>{ Linking.openURL(URL)}}>
-            <Text style={ { fontSize: 20, padding: 15, textAlign: 'center', color: 'deepskyblue', textDecorationLine: 'underline' } }>
+            <Text style={styles.linkTextStyle}>
               To schedule an event, visit our website.
             </Text>
         </TouchableOpacity>
@@ -148,10 +148,18 @@ const styles = {
     alignSelf: 'center',
     color: 'red'
   },
-  linkTextStyle: {
+  welcomeTextStyle: {
     fontSize: 20,
     alignSelf: 'center',
-    padding: 15
+    padding: 15,
+    fontWeight: 'bold'
+  },
+  linkTextStyle: {
+    fontSize: 20,
+    padding: 15,
+    textAlign: 'center',
+    color: 'deepskyblue',
+    textDecorationLine: 'underline'
   },
   logo: {
     justifyContent: 'center',
