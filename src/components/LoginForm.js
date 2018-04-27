@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import Amplify, { Auth } from 'aws-amplify';
 import { StackNavigator } from 'react-navigation';
 
@@ -146,10 +146,9 @@ class LoginForm extends Component {
           />
         </View>
 
-        <Text onPress={() => this.props.navigation.navigate('RegistrationForm')}
-              style={styles.linkTextStyle}>
-          New User? Register Here!
-        </Text>
+        <TouchableOpacity style={ { padding: 10 } } onPress={() => this.props.navigation.navigate('RegistrationForm')}>
+            <Text style={styles.linkTextStyle}>New User? Register Here!</Text>
+        </TouchableOpacity>
 
         <Card>
           <CardSection>
@@ -183,10 +182,11 @@ class LoginForm extends Component {
 
         </Card>
 
-        <Text onPress={() => this.props.navigation.navigate('ForgotPassword', {email: this.state.email})}
-              style={styles.linkTextStyle}>
-          Forgot Password!
-        </Text>
+        <TouchableOpacity style={ { padding: 10 } } onPress={() => this.props.navigation.navigate('ForgotPassword', {email: this.state.email})}>
+            <Text style={styles.linkTextStyle}>
+              Forgot Password!
+            </Text>
+        </TouchableOpacity>
 
       </View>
     );
@@ -201,7 +201,9 @@ const styles = {
   },
   linkTextStyle: {
     fontSize: 18,
-    alignSelf: 'center'
+    textAlign: 'center',
+    color: 'deepskyblue',
+    textDecorationLine: 'underline'
   },
   logo: {
     justifyContent: 'center',
@@ -213,7 +215,8 @@ const styles = {
   logoContainer: {
     alignItems: 'center',
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+
   },
   container: {
     flex: 1,
@@ -223,76 +226,3 @@ const styles = {
 };
 
 export default LoginForm;
-
-
-// import React, { Component } from 'react';
-// import { Text, View, Image, StyleSheet, TextInput, Button } from 'react-native';
-// import Amplify, { Auth } from 'aws-amplify';
-//
-//
-// import awsconfig from '../aws-exports';
-// // import { Card, CardSection, Input, Button, Spinner } from './common';
-//
-// Amplify.configure(awsconfig);
-// // const imgSrc = require('../images/travlendar_logo.png');
-//
-// type Props = {};
-//
-// class LoginForm extends Component {
-//   state = {
-//     username: 'adityanimbalkar3429@gmail.com',
-//     password: 'Password@123'
-//   }
-//
-//   signIn() {
-//     // this.setState({
-//     //   username: 'adityanimbalkar3429@gmail.com',
-//     //   password: 'Password@123'
-//     // });
-//     const { username, password } = this.state;
-//     console.log(username);
-//     console.log(password);
-//     Auth.signIn(username, password)
-//       .then(user => console.log(user))
-//       .catch(err => console.log(err));
-//   }
-//
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.welcome}>
-//           TRAVLENDAR SIGNIN PAGE!
-//         </Text>
-//         <Button
-//           title="Sign In"
-//           onPress={this.signIn.bind(this)}
-//         />
-//       </View>
-//     );
-//   }
-// }
-//
-// const styles = StyleSheet.create({
-//   input: {
-//     height: 50,
-//     backgroundColor: '#ededed'
-//   },
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   instructions: {
-//     textAlign: 'center',
-//     color: '#333333',
-//     marginBottom: 5,
-//   },
-// });
-//
-// export default LoginForm;

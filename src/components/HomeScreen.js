@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Linking, TouchableOpacity } from 'react-native';
 
 import Amplify, { Auth } from 'aws-amplify';
 
@@ -8,6 +8,7 @@ import { Card, CardSection, Input, Button, Spinner } from './common';
 import PushNotification from 'react-native-push-notification';
 
 Amplify.configure(awsconfig);
+const imgSrc = require('../images/travlendar_logo.png');
 type Props = {};
 
 class HomeScreen extends Component {
@@ -22,6 +23,7 @@ class HomeScreen extends Component {
     title: 'Home',
     // header: null,
   }
+
 
   componentWillMount() {
     const { params } = this.props.navigation.state;
@@ -79,7 +81,7 @@ class HomeScreen extends Component {
         },
 
     });
-    
+
     Auth.signOut()
       .then(data => {
         console.log('User Logged Out');
@@ -93,16 +95,34 @@ class HomeScreen extends Component {
   }
 
   render() {
-    
+
     const { params } = this.props.navigation.state;
     const username = params ? params.username : null;
-
+    const URL = 'https://www.travlendar.com';
 
     return(
-      <View>
-        <Text>
+      <View style={styles.container}>
+        <Text style={ styles.linkTextStyle }>
           Hello {this.state.user.username}
         </Text>
+        <View style={styles.logoContainer}>
+          <Image
+            style={styles.logo}
+            source={imgSrc}
+          />
+        </View>
+        <Text style={ { padding: 15, textAlign: 'center' } }>
+          You will now receive push notifications for your upcoming events on this device.
+        </Text>
+        <Text style={ { padding: 15, textAlign: 'center' } }>
+          If you want to stop receiving notifications please click Logout.
+        </Text>
+
+        <TouchableOpacity onPress={ ()=>{ Linking.openURL(URL)}}>
+            <Text style={ { fontSize: 20, padding: 15, textAlign: 'center', color: 'deepskyblue', textDecorationLine: 'underline' } }>
+              To schedule an event, visit our website.
+            </Text>
+        </TouchableOpacity>
 
         <Card>
           <CardSection>
@@ -116,9 +136,40 @@ class HomeScreen extends Component {
             </Button>
           </CardSection>
         </Card>
+
       </View>
     );
   }
 }
+
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
+  },
+  linkTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    padding: 15
+  },
+  logo: {
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    // backgroundColor: '#AED6F1',
+    width: 330,
+    height: 120
+  },
+  logoContainer: {
+    alignItems: 'center',
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+  container: {
+    flex: 1,
+    // backgroundColor: '#AED6F1'
+    backgroundColor: '#ffffff'
+  },
+};
 
 export default HomeScreen;

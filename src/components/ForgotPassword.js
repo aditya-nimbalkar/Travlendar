@@ -19,8 +19,8 @@ class ForgotPassword extends Component {
           };
 
   static navigationOptions = {
-    // title: 'Forgot Password',
-    header: null,
+    title: 'Forgot Password',
+    // header: null,
   }
 
 
